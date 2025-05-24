@@ -88,8 +88,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
             {[
               { name: 'Manifestation', link: '/#features', id: 'features' },
               { name: 'Journaling', link: '/#usage', id: 'usage' },
-              { name: 'Vision Board', link: '/vision-board', id: '' },
-              { name: 'Pricing', link: '/pricing', id: '' }
+              { name: 'Vision Board', link: '/vision-board', id: '' }
             ].map((item, index) => {
               const isInternal = !item.id;
               
@@ -123,21 +122,6 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
 
           {/* Desktop Auth Links */}
           <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-x-5">
-            <motion.a 
-              className="text-sm/6 font-semibold text-zinc-900 relative group"
-              href="/login"
-              whileHover={{ y: -2 }}
-              transition={{ duration: 0.2 }}
-            >
-              Log in
-              <motion.span 
-                className="absolute left-0 right-0 bottom-0 h-0.5 bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full"
-                initial={{ width: 0, left: '50%', transform: 'translateX(-50%)' }}
-                whileHover={{ width: '100%' }}
-                transition={{ duration: 0.2 }}
-              />
-            </motion.a>
-            
             <PremiumButton
               className="flex px-4 py-2 gap-x-1.5 text-sm/6 font-semibold"
               variant="purple"
@@ -158,24 +142,32 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="fixed inset-0 z-50 bg-black/20 backdrop-blur-sm">
+              <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-md">
                 <motion.div 
-                  className="fixed inset-y-0 right-0 z-50 w-full bg-white/95 backdrop-blur-lg px-6 py-6 sm:max-w-sm shadow-premium border-l border-white/20"
+                  className="fixed inset-y-0 right-0 z-50 w-full px-6 py-6 sm:max-w-sm relative overflow-hidden"
                   initial={{ x: '100%' }}
                   animate={{ x: 0 }}
                   exit={{ x: '100%' }}
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  <div className="flex items-center justify-between">
+                  {/* Premium glassmorphism background */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/85 to-white/95 backdrop-blur-3xl shadow-2xl"></div>
+                  
+                  {/* Glass reflection overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/20 to-transparent"></div>
+                  
+                  {/* Subtle border glow */}
+                  <div className="absolute inset-0 border-l border-white/40 shadow-[inset_1px_0_0_0_rgba(255,255,255,0.3)]"></div>
+                  <div className="flex items-center justify-between relative z-20">
                     <Link to="/" className="-m-1.5 p-1.5 text-lg font-medium flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
-                      <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                      <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-lg">
                         M
                       </div>
-                      <span className="font-semibold">Manifest</span>
+                      <span className="font-semibold text-gray-900">Manifest</span>
                     </Link>
                     <motion.button
                       type="button"
-                      className="-m-2.5 rounded-md p-2.5 text-gray-700"
+                      className="-m-2.5 rounded-md p-2.5 text-gray-700 hover:bg-gray-100/80 transition-colors duration-200"
                       onClick={() => setIsMenuOpen(false)}
                       whileTap={{ scale: 0.95 }}
                       transition={{ duration: 0.2 }}
@@ -186,14 +178,13 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
                       </svg>
                     </motion.button>
                   </div>
-                  <div className="mt-6 flow-root">
-                    <div className="-my-6 divide-y divide-gray-500/10">
+                  <div className="mt-6 flow-root relative z-20">
+                    <div className="-my-6 divide-y divide-gray-200/50">
                       <div className="space-y-2 py-6">
                         {[
                           { name: 'Manifestation', link: '/#features', id: 'features' },
                           { name: 'Journaling', link: '/#usage', id: 'usage' },
-                          { name: 'Vision Board', link: '/vision-board', id: '' },
-                          { name: 'Pricing', link: '/pricing', id: '' }
+                          { name: 'Vision Board', link: '/vision-board', id: '' }
                         ].map((item, index) => {
                           const isInternal = !item.id;
                           
@@ -206,7 +197,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
                               {isInternal ? (
                                 <Link 
                                   to={item.link}
-                                  className="-mx-3 block rounded-lg px-4 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50/80 flex items-center justify-between" 
+                                  className="-mx-3 block rounded-2xl px-4 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-white/60 hover:backdrop-blur-xl hover:text-purple-700 hover:shadow-lg transition-all duration-300 flex items-center justify-between border border-white/30 bg-white/20 backdrop-blur-lg shadow-sm" 
                                   onClick={() => setIsMenuOpen(false)}
                                 >
                                   {item.name}
@@ -216,7 +207,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
                                 </Link>
                               ) : (
                                 <button
-                                  className="-mx-3 block rounded-lg px-4 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50/80 w-full text-left flex items-center justify-between"
+                                  className="-mx-3 block rounded-2xl px-4 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-white/60 hover:backdrop-blur-xl hover:text-purple-700 hover:shadow-lg transition-all duration-300 w-full text-left flex items-center justify-between border border-white/30 bg-white/20 backdrop-blur-lg shadow-sm"
                                   onClick={() => handleScrollTo(item.id)}
                                 >
                                   {item.name}
@@ -230,13 +221,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
                         })}
                       </div>
                       <div className="py-6 space-y-4">
-                        <a href="/login" className="-mx-3 block rounded-lg px-4 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50/80 flex items-center">
-                          Log in
-                          <svg className="w-5 h-5 ml-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
-                          </svg>
-                        </a>
-                        <a href="/signup" className="-mx-3 block rounded-lg px-4 py-3 text-base font-semibold leading-7 text-white hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-between">
+                        <a href="/signup" className="-mx-3 block rounded-2xl px-4 py-3 text-base font-semibold leading-7 text-white hover:shadow-xl hover:scale-[1.02] transition-all duration-300 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 flex items-center justify-between shadow-xl border border-purple-400/30 backdrop-blur-lg">
                           Start Manifesting
                           <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />

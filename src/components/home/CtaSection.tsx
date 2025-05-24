@@ -16,6 +16,7 @@ const CtaSection = React.memo(() => {
       />
       
       {/* Removed floating particles to improve performance */}
+      <div className="absolute top-[20%] right-[15%] w-[200px] h-[200px] rounded-full backdrop-blur-xl bg-gradient-to-br from-purple-500/10 to-blue-500/5 border border-white/20 shadow-glass-color -z-1" />
       
       <div className="relative z-[1] text-center">
         <AnimateIn className="mb-8">
