@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { AnimateIn, StaggerContainer, StaggerItem } from '../ui/animations';
+import { PerformanceOptimizer } from '../../utils/performanceOptimizer';
 import React from 'react';
 
 const FeaturesSection = React.memo(() => {
+  const blurSettings = PerformanceOptimizer.getOptimizedBlur();
   const features = [
     {
       title: "Dream Journaling",
@@ -61,7 +63,7 @@ const FeaturesSection = React.memo(() => {
       {/* Enhanced floating blur elements with animation */}
       <motion.div 
         className="absolute top-1/4 -right-32 w-64 h-64 bg-gradient-to-l from-purple-200/40 to-transparent rounded-full"
-        style={{ filter: 'blur(80px)', transform: 'translate3d(0, 0, 0)' }}
+        style={{ filter: blurSettings.backgroundBlur, transform: 'translate3d(0, 0, 0)' }}
         animate={{ 
           x: [0, 20, 0],
           y: [0, -10, 0],
@@ -71,7 +73,7 @@ const FeaturesSection = React.memo(() => {
       />
       <motion.div 
         className="absolute bottom-1/4 -left-32 w-64 h-64 bg-gradient-to-r from-indigo-200/40 to-transparent rounded-full"
-        style={{ filter: 'blur(80px)', transform: 'translate3d(0, 0, 0)' }}
+        style={{ filter: blurSettings.backgroundBlur, transform: 'translate3d(0, 0, 0)' }}
         animate={{ 
           x: [0, -20, 0],
           y: [0, 10, 0],
@@ -83,7 +85,7 @@ const FeaturesSection = React.memo(() => {
       {/* Additional premium ambient lights */}
       <motion.div 
         className="absolute top-1/2 left-1/2 w-96 h-96 bg-gradient-radial from-violet-100/20 to-transparent rounded-full"
-        style={{ filter: 'blur(100px)', transform: 'translate(-50%, -50%) translate3d(0, 0, 0)' }}
+        style={{ filter: blurSettings.elementBlur, transform: 'translate(-50%, -50%) translate3d(0, 0, 0)' }}
         animate={{ 
           opacity: [0.2, 0.4, 0.2],
           scale: [1, 1.3, 1]
@@ -174,22 +176,19 @@ const FeaturesSection = React.memo(() => {
               <StaggerItem key={index}>
                 <motion.div 
                   className="group relative h-full"
-                  initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
                   whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: '-100px' }}
+                  viewport={{ once: true, margin: '-50px' }}
                   transition={{ 
-                    duration: 0.8, 
-                    delay: index * 0.2,
+                    duration: 0.4, 
+                    delay: index * 0.1,
                     ease: [0.25, 0.46, 0.45, 0.94]
                   }}
                   whileHover={{ 
-                    y: -12, 
-                    scale: 1.02,
-                    rotateY: 2,
-                    rotateX: 2,
-                    transition: { duration: 0.2, ease: "easeOut" }
+                    y: -8, 
+                    scale: 1.01,
+                    transition: { duration: 0.15, ease: "easeOut" }
                   }}
-                  style={{ transformStyle: 'preserve-3d' }}
                 >
                   <div 
                     className="relative p-5 sm:p-6 rounded-2xl border border-white/50 backdrop-blur-xl shadow-xl overflow-hidden h-full transition-all duration-200 group-hover:shadow-2xl"
@@ -293,8 +292,8 @@ const FeaturesSection = React.memo(() => {
                           whileInView={{ opacity: 1, x: 0 }}
                           viewport={{ once: true }}
                           transition={{ 
-                            duration: 0.3, 
-                            delay: 0.3 + index * 0.1 
+                            duration: 0.2, 
+                            delay: 0.2 + index * 0.05 
                           }}
                         >
                           {feature.title}
@@ -305,8 +304,8 @@ const FeaturesSection = React.memo(() => {
                           whileInView={{ opacity: 1, x: 0 }}
                           viewport={{ once: true }}
                           transition={{ 
-                            duration: 0.3, 
-                            delay: 0.5 + index * 0.1 
+                            duration: 0.2, 
+                            delay: 0.25 + index * 0.05 
                           }}
                         >
                           {feature.description}
@@ -319,7 +318,7 @@ const FeaturesSection = React.memo(() => {
                         initial={{ width: 0, opacity: 0 }}
                         whileInView={{ width: '70%', opacity: 1 }}
                         viewport={{ once: true, margin: '-50px' }}
-                        transition={{ duration: 0.5, delay: 0.4 + index * 0.15 }}
+                        transition={{ duration: 0.3, delay: 0.3 + index * 0.08 }}
                       >
                         {/* Animated glow effect */}
                         <motion.div

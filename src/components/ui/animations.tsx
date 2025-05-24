@@ -111,7 +111,7 @@ export const StaggerContainer: React.FC<StaggerContainerProps> = ({
   children,
   className = '',
   delay = 0,
-  staggerDelay = 0.05, // Reduced for better performance
+  staggerDelay = 0.03, // Reduced from 0.05 for faster appearance
   ...props
 }) => {
   const shouldAnimate = !PerformanceOptimizer.prefersReducedMotion();

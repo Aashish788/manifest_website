@@ -73,6 +73,20 @@ export class PerformanceOptimizer {
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
 
+  // Check if device is mobile for performance optimization
+  static isMobileDevice(): boolean {
+    return window.innerWidth <= 768 || /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+  }
+
+  // Get optimized blur values based on device
+  static getOptimizedBlur(): { backgroundBlur: string; elementBlur: string } {
+    const isMobile = this.isMobileDevice();
+    return {
+      backgroundBlur: isMobile ? 'blur(40px)' : 'blur(80px)',
+      elementBlur: isMobile ? 'blur(60px)' : 'blur(100px)',
+    };
+  }
+
   // Optimize scroll handling
   static optimizeScroll(callback: () => void) {
     if (this.rafId) return;
@@ -86,23 +100,23 @@ export class PerformanceOptimizer {
 
 // Export performance-optimized animation settings
 export const OPTIMIZED_ANIMATION_CONFIG = {
-  // Reduced durations for better performance
+  // Faster durations for better performance
   duration: {
-    fast: 0.2,
-    normal: 0.3,
-    slow: 0.5,
+    fast: 0.15,
+    normal: 0.2,
+    slow: 0.3,
   },
   
   // Optimized easing functions
   easing: {
     easeOut: [0.25, 0.46, 0.45, 0.94],
     easeInOut: [0.4, 0, 0.2, 1],
-    spring: { type: 'spring', stiffness: 300, damping: 30 },
+    spring: { type: 'spring', stiffness: 400, damping: 30 },
   },
   
   // Performance-conscious defaults
   defaults: {
-    duration: 0.3,
+    duration: 0.2,
     ease: [0.25, 0.46, 0.45, 0.94],
   },
   

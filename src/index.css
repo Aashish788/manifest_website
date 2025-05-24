@@ -95,11 +95,23 @@
 @layer base {
   * {
     @apply border-border;
+    box-sizing: border-box;
   }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
   body {
     @apply bg-background text-foreground;
     font-family: 'Aeonik', sans-serif;
     letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    /* Performance optimizations */
+    will-change: scroll-position;
+    transform: translate3d(0, 0, 0);
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -115,7 +127,7 @@
 
   .btn {
     @apply flex items-center gap-x-2 rounded-full px-7 py-3 text-base font-semibold shadow-xs outline-none 
-      hover:-translate-y-0.5 transition-all duration-300 hover:scale-[100.5%] focus:ring-2 focus:ring-opacity-30;
+      hover:-translate-y-0.5 transition-all duration-200 hover:scale-[100.5%] focus:ring-2 focus:ring-opacity-30;
   }
 
   .btn-primary {
@@ -229,14 +241,14 @@
 /* Premium compact card styles for mobile */
 .feature-card-mobile {
   min-height: 160px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .feature-card-mobile:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-6px) scale(1.01);
   box-shadow: 
-    0 20px 40px -8px rgba(139, 92, 246, 0.15),
-    0 8px 24px -4px rgba(0, 0, 0, 0.1),
+    0 15px 30px -6px rgba(139, 92, 246, 0.12),
+    0 6px 18px -3px rgba(0, 0, 0, 0.08),
     0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 

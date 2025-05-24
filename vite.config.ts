@@ -7,8 +7,22 @@ export default defineConfig({
 	build: {
 		cssMinify: true,
 		minify: "terser",
-		cssCodeSplit: false,
+		cssCodeSplit: true,
 		chunkSizeWarningLimit: 1000,
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					vendor: ['react', 'react-dom'],
+					animations: ['framer-motion'],
+				},
+			},
+		},
+		terserOptions: {
+			compress: {
+				drop_console: true,
+				drop_debugger: true,
+			},
+		},
 	},
 	esbuild: {
 		// jsxInject removed to prevent double React import
