@@ -1,0 +1,227 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Aeonik';
+  src: url('./assets/fonts/aeonik-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aeonik';
+  src: url('./assets/fonts/aeonik-medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Aeonik';
+  src: url('./assets/fonts/aeonik-semibold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 10% 3.9%;
+
+    --radius: 0.5rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Aeonik', sans-serif;
+    letter-spacing: -0.01em;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply tracking-tight font-semibold;
+    letter-spacing: -0.02em;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply flex items-center gap-x-2 rounded-full px-7 py-3 text-base font-semibold shadow-xs outline-none 
+      hover:-translate-y-0.5 transition-all duration-300 hover:scale-[100.5%] focus:ring-2 focus:ring-opacity-30;
+  }
+
+  .btn-primary {
+    @apply bg-black text-white hover:bg-black/90 focus:ring-black;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600;
+  }
+  
+  .text-shimmer {
+    @apply bg-clip-text text-transparent bg-[length:200%_100%] animate-text-shimmer;
+    background-image: linear-gradient(to right, #6366f1, #2563eb, #8b5cf6, #6366f1);
+  }
+  
+  .glass-panel {
+    @apply backdrop-blur-xl bg-white/5 border border-white/10 rounded-2xl shadow-glass;
+  }
+  
+  .glass-panel-dark {
+    @apply backdrop-blur-xl bg-black/40 border border-white/5 rounded-2xl shadow-glass;
+  }
+  
+  .floating-element {
+    @apply animate-floating;
+  }
+  
+  .glowing-element {
+    @apply shadow-glow;
+  }
+}
+
+/* Custom blue gradient for the hero section */
+.hero-gradient {
+  background: linear-gradient(to top, #a6bfe6, #c6ddf9);
+  position: relative;
+}
+
+.hero-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 70% 30%, rgba(255, 255, 255, 0.8), transparent 40%);
+  pointer-events: none;
+}
+
+/* Custom dark gradient for the "Undetectable by design" section */
+.dark-gradient {
+  background: linear-gradient(to bottom, #20232b, #181B20);
+  position: relative;
+}
+
+.dark-gradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 70%, rgba(100, 130, 255, 0.08), transparent 40%);
+  pointer-events: none;
+}
+
+/* Glass card effect */
+.glass-effect {
+  backdrop-filter: blur(16px);
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-effect {
+  background: rgba(20, 20, 20, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Premium blur effects */
+.premium-blur {
+  position: relative;
+}
+
+.premium-blur::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  filter: blur(120px);
+  opacity: 0.15;
+  background: radial-gradient(circle at center, #4f46e5, #7c3aed, #2563eb);
+  border-radius: 50%;
+}
+
+/* Soft shadow for cards */
+.shadow-soft {
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 5px 20px -5px rgba(0, 0, 0, 0.06),
+    0 10px 40px -10px rgba(0, 0, 0, 0.07);
+}
+
+/* Text spacing for better readability */
+.text-readable {
+  line-height: 1.7;
+  letter-spacing: -0.01em;
+}
