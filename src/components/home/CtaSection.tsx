@@ -43,7 +43,7 @@ const CtaSection = React.memo(() => {
           </motion.a>
           
           <motion.a 
-            href="https://play.google.com"
+            href="https://play.google.com/store/apps/details?id=com.manifestom.app"
             className="group relative rounded-full bg-gradient-to-br from-gray-600/90 via-slate-600/80 to-gray-700/90 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-slate-400/20 outline-none transition-all duration-300 hover:shadow-[0_8px_25px_-5px_rgba(71,85,105,0.4)] hover:border-slate-300/30 hover:bg-gradient-to-br hover:from-slate-600/90 hover:via-blue-500/80 hover:to-gray-600/90 flex items-center gap-2"
             whileHover={{ y: -2, scale: 1.01 }}
             whileTap={{ scale: 0.99 }}

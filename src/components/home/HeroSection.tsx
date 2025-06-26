@@ -43,7 +43,7 @@ const HeroSection = React.memo(() => {
 
           <StaggerItem className="flex flex-col sm:flex-row items-center justify-center gap-y-4 gap-x-4 mt-10">
             <motion.a 
-              href="https://play.google.com"
+              href="https://play.google.com/store/apps/details?id=com.manifestom.app"
               className="group relative rounded-full bg-gradient-to-br from-slate-600/90 via-blue-600/80 to-slate-700/90 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-blue-400/20 outline-none transition-all duration-200 hover:shadow-[0_4px_15px_-5px_rgba(59,130,246,0.3)] hover:border-blue-300/30 flex items-center gap-2"
               whileHover={shouldAnimate ? { y: -1, scale: 1.005 } : {}}
               whileTap={shouldAnimate ? { scale: 0.995 } : {}}
