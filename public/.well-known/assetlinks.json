@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.manifestom.app",
+      "sha256_cert_fingerprints": [
+        "DE:73:DA:54:2B:E1:95:5F:3D:B9:03:2F:45:93:85:09:6A:9E:63:5B:D5:42:8E:94:8C:0F:D0:08:49:EF:7E:37"
+      ]
+    }
+  }
+] 
