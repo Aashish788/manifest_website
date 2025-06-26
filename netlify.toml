@@ -9,3 +9,10 @@
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
+  
+# Ensure app-ads.txt is served correctly
+[[headers]]
+  for = "/app-ads.txt"
+  [headers.values]
+    Content-Type = "text/plain"
