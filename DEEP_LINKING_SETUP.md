@@ -3,11 +3,13 @@
 ## 📱 How It Works
 
 When users share a video from your app, they get a link like:
+
 ```
 https://manifestdream.site/reel.html?id=abc123
 ```
 
 When someone clicks this link:
+
 1. **Has the app?** → Opens directly to that video in the app ✅
 2. **No app?** → Redirects to Play Store/App Store to download 📲
 
@@ -21,25 +23,28 @@ Open `public/reel.html` and update lines 97-98:
 
 ```javascript
 const CONFIG = {
-    appScheme: 'manifestation',
-    
-    // UPDATE THESE:
-    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.manifestom.app',
-    appStoreUrl: 'https://apps.apple.com/app/id1234567890', // ← Replace with your real iOS App Store ID
-    
-    appOpenTimeout: 2500,
-    storeRedirectDelay: 3000,
+  appScheme: "manifestation",
+
+  // UPDATE THESE:
+  playStoreUrl:
+    "https://play.google.com/store/apps/details?id=com.manifestom.app",
+  appStoreUrl: "https://apps.apple.com/app/id1234567890", // ← Replace with your real iOS App Store ID
+
+  appOpenTimeout: 2500,
+  storeRedirectDelay: 3000,
 };
 ```
 
 ### Step 2: Deploy to Your Website
 
 Upload `public/reel.html` to your website so it's accessible at:
+
 ```
 https://manifestdream.site/reel.html
 ```
 
 You can do this by:
+
 - Deploying via Netlify (already configured in your project)
 - The file is in the `public` folder, so it will be copied automatically when you build
 
@@ -64,25 +69,28 @@ Netlify will automatically deploy the `public/reel.html` file!
 ## 🔗 How to Share Videos from Your App
 
 ### Option 1: Query Parameter (Easiest - Already Supported!)
+
 ```javascript
 const videoId = "abc123";
 const shareUrl = `https://manifestdream.site/reel.html?id=${videoId}`;
 
 // Share this URL
 Share.share({
-  title: 'Check out my manifestation!',
+  title: "Check out my manifestation!",
   message: shareUrl,
-  url: shareUrl
+  url: shareUrl,
 });
 ```
 
 ### Option 2: Clean URL (Requires Server Config)
+
 ```javascript
 const videoId = "abc123";
 const shareUrl = `https://manifestdream.site/reel/${videoId}`;
 ```
 
 For this to work, you need to add a redirect rule in `netlify.toml`:
+
 ```toml
 [[redirects]]
   from = "/reel/:videoId"
@@ -102,17 +110,17 @@ For this to work, you need to add a redirect rule in `netlify.toml`:
 <activity
     android:name=".MainActivity"
     android:launchMode="singleTask">
-    
+
     <!-- Existing code... -->
-    
+
     <!-- Add this intent filter for deep links -->
     <intent-filter android:label="manifestation">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        
+
         <!-- Your app's custom scheme -->
-        <data android:scheme="manifestation" 
+        <data android:scheme="manifestation"
               android:host="reel" />
     </intent-filter>
 </activity>
@@ -121,31 +129,31 @@ For this to work, you need to add a redirect rule in `netlify.toml`:
 2. **Handle the deep link in your app:**
 
 ```javascript
-import { Linking } from 'react-native';
+import { Linking } from "react-native";
 
 // In your App.js or main component
 useEffect(() => {
   // Handle initial URL (when app is closed)
-  Linking.getInitialURL().then(url => {
+  Linking.getInitialURL().then((url) => {
     if (url) {
       handleDeepLink(url);
     }
   });
-  
+
   // Handle URL when app is already open
-  const subscription = Linking.addEventListener('url', ({ url }) => {
+  const subscription = Linking.addEventListener("url", ({ url }) => {
     handleDeepLink(url);
   });
-  
+
   return () => subscription.remove();
 }, []);
 
 function handleDeepLink(url) {
   // url will be like: "manifestation://reel/abc123"
-  const videoId = url.split('/').pop();
-  
+  const videoId = url.split("/").pop();
+
   // Navigate to the video screen
-  navigation.navigate('VideoPlayer', { videoId });
+  navigation.navigate("VideoPlayer", { videoId });
 }
 ```
 
@@ -177,6 +185,7 @@ function handleDeepLink(url) {
 
 1. Build and deploy your website
 2. Open this URL on your phone:
+
    ```
    https://manifestdream.site/reel.html?id=test123
    ```
@@ -187,11 +196,11 @@ function handleDeepLink(url) {
 
 ### Test Different Scenarios:
 
-| Scenario | URL to Test |
-|----------|-------------|
-| With video ID | `https://manifestdream.site/reel.html?id=abc123` |
-| No video ID | `https://manifestdream.site/reel.html` |
-| Desktop browser | Same URLs (should show download button) |
+| Scenario        | URL to Test                                      |
+| --------------- | ------------------------------------------------ |
+| With video ID   | `https://manifestdream.site/reel.html?id=abc123` |
+| No video ID     | `https://manifestdream.site/reel.html`           |
+| Desktop browser | Same URLs (should show download button)          |
 
 ---
 
@@ -226,20 +235,20 @@ Track deep link performance by adding analytics:
 // In reel.html, add to the handleDeepLink function:
 
 // Track when link is opened
-gtag('event', 'deep_link_opened', {
-  'video_id': videoId,
-  'platform': platform.name
+gtag("event", "deep_link_opened", {
+  video_id: videoId,
+  platform: platform.name,
 });
 
 // Track when app opens successfully
-gtag('event', 'app_opened', {
-  'video_id': videoId
+gtag("event", "app_opened", {
+  video_id: videoId,
 });
 
 // Track when redirected to store
-gtag('event', 'store_redirect', {
-  'video_id': videoId,
-  'platform': platform.name
+gtag("event", "store_redirect", {
+  video_id: videoId,
+  platform: platform.name,
 });
 ```
 
@@ -247,11 +256,11 @@ gtag('event', 'store_redirect', {
 
 ## 🎯 URL Format Summary
 
-| Format | Example | Notes |
-|--------|---------|-------|
-| Query param | `manifestdream.site/reel.html?id=abc123` | ✅ Works now |
-| Clean URL | `manifestdream.site/reel/abc123` | Needs Netlify redirect |
-| Deep link | `manifestation://reel/abc123` | App scheme |
+| Format      | Example                                  | Notes                  |
+| ----------- | ---------------------------------------- | ---------------------- |
+| Query param | `manifestdream.site/reel.html?id=abc123` | ✅ Works now           |
+| Clean URL   | `manifestdream.site/reel/abc123`         | Needs Netlify redirect |
+| Deep link   | `manifestation://reel/abc123`            | App scheme             |
 
 ---
 

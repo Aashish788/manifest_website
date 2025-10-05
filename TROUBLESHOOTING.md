@@ -3,6 +3,7 @@
 ## ❌ Your Current Problem
 
 **Symptoms:**
+
 - App IS installed on your phone
 - Click the share link → Shows "Download App" page
 - Click "Open App" button → Still shows download page or goes to Play Store
@@ -28,6 +29,7 @@ defaultConfig {
 ```
 
 **IMPORTANT:** Update `reel.html` with the EXACT package name:
+
 ```javascript
 playStoreUrl: 'https://play.google.com/store/apps/details?id=com.manifestom.app',
 //                                                             ^^^^^^^^^^^^^^^^^^^
@@ -47,26 +49,27 @@ Look for this section in your `<activity>` tag:
     android:name=".MainActivity"
     android:launchMode="singleTask"
     android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode">
-    
+
     <!-- Your existing intent-filter for LAUNCHER -->
     <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
     </intent-filter>
-    
+
     <!-- ⚠️ ADD THIS IF MISSING ⚠️ -->
     <intent-filter android:label="manifestation">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
         <category android:name="android.intent.category.BROWSABLE" />
-        
+
         <data android:scheme="manifestation" />
     </intent-filter>
-    
+
 </activity>
 ```
 
 **Key Points:**
+
 - ✅ `android:scheme="manifestation"` - This MUST match the scheme in your URL
 - ✅ `android:launchMode="singleTask"` - Prevents multiple instances
 - ✅ Intent filter must be INSIDE the `<activity>` tag, not outside
@@ -92,13 +95,14 @@ adb shell am start -W -a android.intent.action.VIEW \
 ```
 
 **If you get an error:**
+
 - ❌ "Error: Activity not started, unable to resolve Intent"
   → Deep link is NOT configured in AndroidManifest.xml
-  
 - ❌ "Error: Activity class {...} does not exist"
   → Package name is wrong
 
 **If it works:**
+
 - ✅ App should open immediately
 - ✅ Check your app's console logs
 
@@ -121,36 +125,36 @@ function App() {
         handleDeepLink(url);
       }
     });
-    
+
     // Handle app opened while running
     const subscription = Linking.addEventListener('url', ({ url }) => {
       console.log('📱 Deep link received:', url);
       handleDeepLink(url);
     });
-    
+
     return () => subscription.remove();
   }, []);
-  
+
   function handleDeepLink(url) {
     console.log('🔗 Handling deep link:', url);
-    
+
     // Show alert to verify it's working
     Alert.alert('Deep Link Received!', `URL: ${url}`);
-    
+
     // Extract video ID
     // Example: "manifestation://reel/test123" → "test123"
     const match = url.match(/reel\/([^/?#]+)/);
     if (match) {
       const videoId = match[1];
       console.log('🎥 Video ID:', videoId);
-      
+
       // TODO: Navigate to your video player screen
       // navigation.navigate('VideoPlayer', { videoId });
-      
+
       Alert.alert('Video ID Found!', `Loading video: ${videoId}`);
     }
   }
-  
+
   return (
     // Your app content
   );
@@ -158,6 +162,7 @@ function App() {
 ```
 
 **Test Steps:**
+
 1. Add this code to your app
 2. Rebuild: `cd android && ./gradlew clean && cd .. && npx react-native run-android`
 3. Open the app manually
@@ -191,6 +196,7 @@ cd android
 ### Step 6: Test the Full Flow
 
 1. **Deploy your website:**
+
    ```bash
    bun run build
    git add .
@@ -201,6 +207,7 @@ cd android
 2. **Wait for Netlify to deploy** (check https://app.netlify.com)
 
 3. **Test on your phone:**
+
    - Open: `https://manifestdream.site/quick-test.html`
    - Click "Test Direct Deep Link"
    - Should open your app!

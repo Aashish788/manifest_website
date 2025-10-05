@@ -3,7 +3,9 @@
 ## 🎉 What I've Created For You
 
 ### 1. **Main Redirect Page** (`public/reel.html`)
+
 The core deep linking page that:
+
 - ✅ Detects if user has your app installed
 - ✅ Opens app directly to the video (if installed)
 - ✅ Redirects to Play Store/App Store (if not installed)
@@ -11,7 +13,9 @@ The core deep linking page that:
 - ✅ Has beautiful UI with loading animation
 
 ### 2. **Testing Tool** (`public/test-deep-links.html`)
+
 A complete testing interface to:
+
 - ✅ Generate share URLs for any video ID
 - ✅ Test different URL formats
 - ✅ Generate QR codes for mobile testing
@@ -19,10 +23,12 @@ A complete testing interface to:
 - ✅ Copy URLs to clipboard
 
 ### 3. **Documentation**
+
 - ✅ `DEEP_LINKING_SETUP.md` - Complete setup guide
 - ✅ `REACT_NATIVE_INTEGRATION.md` - Full React Native integration code
 
 ### 4. **Netlify Configuration**
+
 - ✅ Updated `netlify.toml` to support clean URLs
 - ✅ `/reel/abc123` → redirects to → `/reel.html?id=abc123`
 
@@ -31,22 +37,25 @@ A complete testing interface to:
 ## 🚀 Next Steps (What YOU Need to Do)
 
 ### Step 1: Update Store URLs ⚠️ CRITICAL
+
 Open `public/reel.html` and find this section (around line 97):
 
 ```javascript
 const CONFIG = {
-    appScheme: 'manifestation',
-    
-    // UPDATE THESE:
-    playStoreUrl: 'https://play.google.com/store/apps/details?id=com.manifestom.app',
-    appStoreUrl: 'https://apps.apple.com/app/id1234567890', // ← REPLACE THIS
-    
-    appOpenTimeout: 2500,
-    storeRedirectDelay: 3000,
+  appScheme: "manifestation",
+
+  // UPDATE THESE:
+  playStoreUrl:
+    "https://play.google.com/store/apps/details?id=com.manifestom.app",
+  appStoreUrl: "https://apps.apple.com/app/id1234567890", // ← REPLACE THIS
+
+  appOpenTimeout: 2500,
+  storeRedirectDelay: 3000,
 };
 ```
 
 **Replace with your real URLs:**
+
 - Get your Play Store URL from: https://play.google.com/console
 - Get your App Store URL when you publish on iOS
 
@@ -67,6 +76,7 @@ git push
 ```
 
 After deployment, these URLs will work:
+
 - ✅ `https://manifestdream.site/reel.html` (redirect page)
 - ✅ `https://manifestdream.site/test-deep-links.html` (testing tool)
 - ✅ `https://manifestdream.site/reel/abc123` (clean URL via Netlify redirect)
@@ -86,7 +96,7 @@ Add this inside your `<activity>` tag:
     <action android:name="android.intent.action.VIEW" />
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
-    
+
     <data android:scheme="manifestation" />
     <data android:host="reel" />
 </intent-filter>
@@ -119,32 +129,32 @@ See full code in `REACT_NATIVE_INTEGRATION.md`
 Quick version:
 
 ```javascript
-import { Linking } from 'react-native';
+import { Linking } from "react-native";
 
 useEffect(() => {
   // Handle initial URL
-  Linking.getInitialURL().then(url => {
+  Linking.getInitialURL().then((url) => {
     if (url) handleDeepLink(url);
   });
-  
+
   // Handle URL while app is running
-  const subscription = Linking.addEventListener('url', ({ url }) => {
+  const subscription = Linking.addEventListener("url", ({ url }) => {
     handleDeepLink(url);
   });
-  
+
   return () => subscription.remove();
 }, []);
 
 function handleDeepLink(url) {
-  const videoId = url.split('/').pop(); // Extract abc123 from manifestation://reel/abc123
-  navigation.navigate('VideoPlayer', { videoId });
+  const videoId = url.split("/").pop(); // Extract abc123 from manifestation://reel/abc123
+  navigation.navigate("VideoPlayer", { videoId });
 }
 ```
 
 #### D. Update Your Share Function
 
 ```javascript
-import { Share } from 'react-native';
+import { Share } from "react-native";
 
 async function shareVideo(videoId) {
   await Share.share({
@@ -218,11 +228,11 @@ PLAYS VIDEO! 🎉
 
 ## 🎯 URL Formats Supported
 
-| Type | Example | Use Case |
-|------|---------|----------|
-| Clean URL | `manifestdream.site/reel/abc123` | Sharing (looks nice) |
-| Query URL | `manifestdream.site/reel.html?id=abc123` | Direct access |
-| Deep Link | `manifestation://reel/abc123` | App-to-app |
+| Type      | Example                                  | Use Case             |
+| --------- | ---------------------------------------- | -------------------- |
+| Clean URL | `manifestdream.site/reel/abc123`         | Sharing (looks nice) |
+| Query URL | `manifestdream.site/reel.html?id=abc123` | Direct access        |
+| Deep Link | `manifestation://reel/abc123`            | App-to-app           |
 
 All three formats work! Use the clean URL for sharing.
 
@@ -233,10 +243,12 @@ All three formats work! Use the clean URL for sharing.
 ### App Not Opening?
 
 1. **Check scheme in app:**
+
    - Android: Look in `AndroidManifest.xml` for `android:scheme="manifestation"`
    - iOS: Look in `Info.plist` for `<string>manifestation</string>`
 
 2. **Test the scheme directly:**
+
    - Open `manifestation://reel/test` in mobile browser
    - Should prompt "Open in App?"
 
@@ -247,10 +259,12 @@ All three formats work! Use the clean URL for sharing.
 ### Redirect Not Working?
 
 1. **Make sure reel.html is deployed:**
+
    - Open: `https://manifestdream.site/reel.html`
    - Should show the redirect page
 
 2. **Check Netlify redirects:**
+
    - Open: `https://manifestdream.site/reel/test123`
    - Should redirect to: `reel.html?id=test123`
 
@@ -263,16 +277,19 @@ All three formats work! Use the clean URL for sharing.
 ## 📱 Important URLs to Remember
 
 ### Your Website:
+
 - Main site: `https://manifestdream.site`
 - Redirect page: `https://manifestdream.site/reel.html`
 - Testing tool: `https://manifestdream.site/test-deep-links.html`
 
 ### Share URL Format:
+
 ```
 https://manifestdream.site/reel/{VIDEO_ID}
 ```
 
 ### Deep Link Scheme:
+
 ```
 manifestation://reel/{VIDEO_ID}
 ```
@@ -299,6 +316,7 @@ manifestation://reel/{VIDEO_ID}
 Once you complete the checklist, your deep linking will work exactly like Instagram/TikTok!
 
 Users can:
+
 1. Share videos from your app
 2. Friends click the link
 3. If they have the app → Opens directly to the video
@@ -315,6 +333,7 @@ Users can:
 ---
 
 **Need Help?**
+
 - Check browser console (F12) for errors
 - Check React Native logs for deep link events
 - Use the testing tool to verify URLs work
