@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShimmerButton, PremiumButton } from '../ui/animations';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 interface NavbarProps {
   transparent?: boolean;
@@ -51,7 +52,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
       className={`mx-auto fixed flex left-0 right-0 top-0 w-full z-[12] items-center justify-between max-w-[76rem] select-none transition-all duration-300 lg:mt-5 translate-y-0`}
     >
-      <header className={`relative isolate w-full backdrop-blur-md ${scrolled ? 'bg-white/80 shadow-premium' : transparent ? 'bg-transparent' : 'bg-white/70'} rounded-full mx-5 transition-all duration-500`}>
+      <header className={`relative isolate w-full backdrop-blur-md ${scrolled ? 'bg-white/80 dark:bg-gray-900/80 shadow-premium' : transparent ? 'bg-transparent' : 'bg-white/70 dark:bg-gray-900/70'} rounded-full mx-5 transition-all duration-500`}>
         <nav className="flex items-center justify-between p-3 lg:p-4">
           {/* Logo/Brand */}
           <div className="flex lg:flex-1 ml-2">
@@ -63,15 +64,16 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
               >
                 M
               </motion.div>
-              <span className="text-lg font-semibold transition group-hover:text-gradient group-hover:bg-gradient-to-r from-purple-500 to-indigo-600">Manifest</span>
+              <span className="text-lg font-semibold transition group-hover:text-gradient group-hover:bg-gradient-to-r from-purple-500 to-indigo-600 text-gray-900 dark:text-white">Manifest</span>
             </Link>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex lg:hidden">
+          {/* Mobile Menu Button and Theme Toggle */}
+          <div className="flex lg:hidden items-center gap-3">
+            <ThemeToggle />
             <motion.button
               type="button"
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-zinc-700"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-zinc-700 dark:text-zinc-300"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               whileTap={{ scale: 0.95 }}
               transition={{ duration: 0.2 }}
@@ -94,7 +96,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
               
               const NavItem = () => (
                 <motion.span
-                  className="text-sm/6 font-semibold text-zinc-900 transition hover:text-gradient hover:bg-gradient-to-r from-purple-500 to-indigo-600 relative"
+                  className="text-sm/6 font-semibold text-zinc-900 dark:text-zinc-100 transition hover:text-gradient hover:bg-gradient-to-r from-purple-500 to-indigo-600 relative"
                   whileHover={{ y: -2 }}
                   transition={{ duration: 0.2 }}
                 >
@@ -122,6 +124,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
 
           {/* Desktop Auth Links */}
           <div className="hidden lg:flex lg:flex-1 lg:justify-end items-center gap-x-5">
+            <ThemeToggle />
             <PremiumButton
               className="flex px-4 py-2 gap-x-1.5 text-sm/6 font-semibold"
               variant="purple"
@@ -151,23 +154,23 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
                   transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                 >
                   {/* Premium glassmorphism background */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/85 to-white/95 backdrop-blur-3xl shadow-2xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/85 to-white/95 dark:from-gray-900/90 dark:via-gray-900/85 dark:to-gray-900/95 backdrop-blur-3xl shadow-2xl"></div>
                   
                   {/* Glass reflection overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/20 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/20 dark:via-gray-700/20 to-transparent"></div>
                   
                   {/* Subtle border glow */}
-                  <div className="absolute inset-0 border-l border-white/40 shadow-[inset_1px_0_0_0_rgba(255,255,255,0.3)]"></div>
+                  <div className="absolute inset-0 border-l border-white/40 dark:border-gray-600/40 shadow-[inset_1px_0_0_0_rgba(255,255,255,0.3)] dark:shadow-[inset_1px_0_0_0_rgba(156,163,175,0.3)]"></div>
                   <div className="flex items-center justify-between relative z-20">
                     <Link to="/" className="-m-1.5 p-1.5 text-lg font-medium flex items-center gap-2" onClick={() => setIsMenuOpen(false)}>
                       <div className="w-6 h-6 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold text-sm shadow-lg">
                         M
                       </div>
-                      <span className="font-semibold text-gray-900">Manifest</span>
+                      <span className="font-semibold text-gray-900 dark:text-white">Manifest</span>
                     </Link>
                     <motion.button
                       type="button"
-                      className="-m-2.5 rounded-md p-2.5 text-gray-700 hover:bg-gray-100/80 transition-colors duration-200"
+                      className="-m-2.5 rounded-md p-2.5 text-gray-700 dark:text-gray-300 hover:bg-gray-100/80 dark:hover:bg-gray-700/80 transition-colors duration-200"
                       onClick={() => setIsMenuOpen(false)}
                       whileTap={{ scale: 0.95 }}
                       transition={{ duration: 0.2 }}
@@ -179,7 +182,7 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
                     </motion.button>
                   </div>
                   <div className="mt-6 flow-root relative z-20">
-                    <div className="-my-6 divide-y divide-gray-200/50">
+                    <div className="-my-6 divide-y divide-gray-200/50 dark:divide-gray-700/50">
                       <div className="space-y-2 py-6">
                         {[
                           { name: 'Manifestation', link: '/#features', id: 'features' },
@@ -197,21 +200,21 @@ const Navbar = ({ transparent = false }: NavbarProps) => {
                               {isInternal ? (
                                 <Link 
                                   to={item.link}
-                                  className="-mx-3 block rounded-2xl px-4 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-white/60 hover:backdrop-blur-xl hover:text-purple-700 hover:shadow-lg transition-all duration-300 flex items-center justify-between border border-white/30 bg-white/20 backdrop-blur-lg shadow-sm" 
+                                  className="-mx-3 block rounded-2xl px-4 py-3 text-base font-semibold leading-7 text-gray-900 dark:text-white hover:bg-white/60 dark:hover:bg-gray-700/60 hover:backdrop-blur-xl hover:text-purple-700 hover:shadow-lg transition-all duration-300 flex items-center justify-between border border-white/30 dark:border-gray-600/30 bg-white/20 dark:bg-gray-800/20 backdrop-blur-lg shadow-sm" 
                                   onClick={() => setIsMenuOpen(false)}
                                 >
                                   {item.name}
-                                  <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                   </svg>
                                 </Link>
                               ) : (
                                 <button
-                                  className="-mx-3 block rounded-2xl px-4 py-3 text-base font-semibold leading-7 text-gray-900 hover:bg-white/60 hover:backdrop-blur-xl hover:text-purple-700 hover:shadow-lg transition-all duration-300 w-full text-left flex items-center justify-between border border-white/30 bg-white/20 backdrop-blur-lg shadow-sm"
+                                  className="-mx-3 block rounded-2xl px-4 py-3 text-base font-semibold leading-7 text-gray-900 dark:text-white hover:bg-white/60 dark:hover:bg-gray-700/60 hover:backdrop-blur-xl hover:text-purple-700 hover:shadow-lg transition-all duration-300 w-full text-left flex items-center justify-between border border-white/30 dark:border-gray-600/30 bg-white/20 dark:bg-gray-800/20 backdrop-blur-lg shadow-sm"
                                   onClick={() => handleScrollTo(item.id)}
                                 >
                                   {item.name}
-                                  <svg className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <svg className="w-4 h-4 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                                   </svg>
                                 </button>

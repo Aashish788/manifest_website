@@ -131,7 +131,8 @@
   }
 
   .btn-primary {
-    @apply bg-black text-white hover:bg-black/90 focus:ring-black;
+    @apply bg-black text-white hover:bg-black/90 focus:ring-black 
+      dark:bg-white dark:text-black dark:hover:bg-white/90 dark:focus:ring-white;
   }
   
   .text-gradient {
@@ -177,6 +178,15 @@
   pointer-events: none;
 }
 
+/* Dark mode hero gradient */
+.dark .hero-gradient {
+  background: linear-gradient(to top, #1e1b4b, #312e81);
+}
+
+.dark .hero-gradient::before {
+  background: radial-gradient(circle at 70% 30%, rgba(99, 102, 241, 0.3), transparent 40%);
+}
+
 /* Custom dark gradient for the "Undetectable by design" section */
 .dark-gradient {
   background: linear-gradient(to bottom, #20232b, #181B20);
@@ -192,6 +202,15 @@
   bottom: 0;
   background: radial-gradient(circle at 30% 70%, rgba(100, 130, 255, 0.08), transparent 40%);
   pointer-events: none;
+}
+
+/* Light mode version of dark gradient section */
+.light .dark-gradient {
+  background: linear-gradient(to bottom, #f8fafc, #f1f5f9);
+}
+
+.light .dark-gradient::before {
+  background: radial-gradient(circle at 30% 70%, rgba(99, 102, 241, 0.08), transparent 40%);
 }
 
 /* Glass card effect */
@@ -224,12 +243,24 @@
   border-radius: 50%;
 }
 
+.dark .premium-blur::before {
+  opacity: 0.25;
+  background: radial-gradient(circle at center, #6366f1, #8b5cf6, #3b82f6);
+}
+
 /* Soft shadow for cards */
 .shadow-soft {
   box-shadow: 
     0 1px 2px rgba(0, 0, 0, 0.04),
     0 5px 20px -5px rgba(0, 0, 0, 0.06),
     0 10px 40px -10px rgba(0, 0, 0, 0.07);
+}
+
+.dark .shadow-soft {
+  box-shadow: 
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 5px 20px -5px rgba(0, 0, 0, 0.3),
+    0 10px 40px -10px rgba(0, 0, 0, 0.4);
 }
 
 /* Text spacing for better readability */
@@ -252,6 +283,13 @@
     0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
+.dark .feature-card-mobile:hover {
+  box-shadow: 
+    0 15px 30px -6px rgba(139, 92, 246, 0.25),
+    0 6px 18px -3px rgba(0, 0, 0, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
 /* Mobile-first premium glassmorphism */
 .premium-glass {
   background: 
@@ -259,6 +297,12 @@
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .premium-glass {
+  background: 
+    linear-gradient(135deg, rgba(17, 24, 39, 0.9) 0%, rgba(17, 24, 39, 0.7) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 /* Smooth shimmer for premium feel */
@@ -276,6 +320,10 @@
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transition: left 0.5s ease-in-out;
+}
+
+.dark .premium-shimmer::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
 }
 
 .premium-shimmer:hover::before {

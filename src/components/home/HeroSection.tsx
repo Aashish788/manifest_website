@@ -7,10 +7,9 @@ const HeroSection = React.memo(() => {
   const shouldAnimate = !PerformanceOptimizer.prefersReducedMotion();
   
   return (
-    <div className="relative py-32 sm:py-48 lg:py-60 select-none hero-gradient overflow-hidden">
-      {/* Simplified background elements - no continuous animations */}
-      <div className="absolute inset-0 overflow-hidden">
-        {/* Static background element with subtle gradient */}
+    <div className="relative py-32 sm:py-48 lg:py-60 select-none hero-gradient overflow-hidden bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-black">
+      {/* Light mode background elements */}
+      <div className="absolute inset-0 overflow-hidden dark:opacity-0">
         <div 
           className="absolute inset-0 opacity-40"
           style={{
@@ -18,33 +17,83 @@ const HeroSection = React.memo(() => {
             filter: 'blur(40px)',
           }}
         />
-        
-        {/* Subtle decorative elements - much less visible */}
         <div className="absolute inset-[3rem] rounded-[12rem] bg-white/3 shadow-[0_0_30px_rgba(173,216,255,0.1)] blur-[3px]" />
         <div className="absolute inset-[10rem] rounded-[8rem] bg-white/3 shadow-[inset_0_0_30px_rgba(255,255,255,0.2)] blur-[2px]" />
       </div>
 
+      {/* Dark mode premium background */}
+      <div className="absolute inset-0 overflow-hidden opacity-0 dark:opacity-100">
+        {/* Primary dark gradient overlay */}
+        <div 
+          className="absolute inset-0 opacity-60"
+          style={{
+            background: 'radial-gradient(circle at 30% 20%, rgba(139, 92, 246, 0.2), transparent 50%)',
+            filter: 'blur(120px)',
+            transform: 'translate3d(0, 0, 0)'
+          }}
+        />
+        <div 
+          className="absolute inset-0 opacity-40"
+          style={{
+            background: 'radial-gradient(circle at 70% 80%, rgba(79, 70, 229, 0.15), transparent 60%)',
+            filter: 'blur(100px)',
+            transform: 'translate3d(0, 0, 0)'
+          }}
+        />
+        <div 
+          className="absolute inset-0 opacity-20"
+          style={{
+            background: 'radial-gradient(circle at 50% 50%, rgba(99, 102, 241, 0.1), transparent 80%)',
+            filter: 'blur(150px)',
+            transform: 'translate3d(0, 0, 0)'
+          }}
+        />
+        
+        {/* Animated floating orbs for dark mode */}
+        <motion.div 
+          className="absolute top-1/4 left-1/4 w-32 h-32 bg-purple-500/10 rounded-full"
+          style={{ filter: 'blur(60px)' }}
+          animate={{ 
+            x: [0, 30, 0],
+            y: [0, -20, 0],
+            scale: [1, 1.2, 1],
+            opacity: [0.3, 0.6, 0.3]
+          }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div 
+          className="absolute bottom-1/3 right-1/4 w-24 h-24 bg-indigo-500/10 rounded-full"
+          style={{ filter: 'blur(50px)' }}
+          animate={{ 
+            x: [0, -25, 0],
+            y: [0, 15, 0],
+            scale: [1, 1.3, 1],
+            opacity: [0.2, 0.5, 0.2]
+          }}
+          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+        />
+      </div>
+
       <div className="relative z-[2] mx-auto max-w-3xl lg:pb-16 px-4">
         <StaggerContainer className="text-center">
-          <StaggerItem as="h1" className="text-4xl font-semibold tracking-tight text-balance text-zinc-900 sm:text-7xl mb-5 relative">
+          <StaggerItem as="h1" className="text-4xl font-semibold tracking-tight text-balance text-zinc-900 dark:text-white sm:text-7xl mb-5 relative">
             <span className="relative">
               Manifest Your Dreams.{" "}
               <span className="relative inline-block">
                 Realize Your Vision.
-                {/* Removed continuous animation for better performance */}
-                <span className="absolute -inset-1 rounded-lg bg-gradient-to-r from-transparent via-purple-500/10 to-transparent"></span>
+                <span className="absolute -inset-1 rounded-lg bg-gradient-to-r from-transparent via-purple-500/10 dark:via-purple-400/20 to-transparent"></span>
               </span>
             </span>
           </StaggerItem>
           
-          <StaggerItem as="p" className="mx-auto max-w-lg text-lg/6 lg:text-xl/6 font-medium text-balance text-zinc-500 mb-10">
+          <StaggerItem as="p" className="mx-auto max-w-lg text-lg/6 lg:text-xl/6 font-medium text-balance text-zinc-500 dark:text-zinc-300 mb-10">
             Transform your dreams into reality with our powerful manifestation, journal, and goal tracking app. Visualize, affirm, and achieve.
           </StaggerItem>
 
           <StaggerItem className="flex flex-col sm:flex-row items-center justify-center gap-y-4 gap-x-4 mt-10">
             <motion.a 
               href="https://play.google.com/store/apps/details?id=com.manifestom.app"
-              className="group relative rounded-full bg-gradient-to-br from-slate-600/90 via-blue-600/80 to-slate-700/90 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-blue-400/20 outline-none transition-all duration-200 hover:shadow-[0_4px_15px_-5px_rgba(59,130,246,0.3)] hover:border-blue-300/30 flex items-center gap-2"
+              className="group relative rounded-full bg-gradient-to-br from-slate-600/90 via-blue-600/80 to-slate-700/90 dark:from-purple-600 dark:via-indigo-600 dark:to-purple-700 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-blue-400/20 dark:border-purple-400/30 outline-none transition-all duration-200 hover:shadow-[0_4px_15px_-5px_rgba(59,130,246,0.3)] dark:hover:shadow-[0_4px_15px_-5px_rgba(139,92,246,0.4)] hover:border-blue-300/30 dark:hover:border-purple-300/40 flex items-center gap-2"
               whileHover={shouldAnimate ? { y: -1, scale: 1.005 } : {}}
               whileTap={shouldAnimate ? { scale: 0.995 } : {}}
               style={{ willChange: shouldAnimate ? 'transform' : 'auto' }}
@@ -56,7 +105,7 @@ const HeroSection = React.memo(() => {
             </motion.a>
             
             <motion.div    
-              className="group relative rounded-full bg-gradient-to-br from-gray-600/90 via-slate-600/80 to-gray-700/90 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-slate-400/20 outline-none transition-all duration-200 hover:shadow-[0_4px_15px_-5px_rgba(71,85,105,0.3)] hover:border-slate-300/30 flex items-center gap-2 cursor-not-allowed opacity-75"
+              className="group relative rounded-full bg-gradient-to-br from-gray-600/90 via-slate-600/80 to-gray-700/90 dark:from-gray-700 dark:via-gray-600 dark:to-gray-800 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-slate-400/20 dark:border-gray-500/30 outline-none transition-all duration-200 hover:shadow-[0_4px_15px_-5px_rgba(71,85,105,0.3)] dark:hover:shadow-[0_4px_15px_-5px_rgba(75,85,99,0.4)] hover:border-slate-300/30 dark:hover:border-gray-400/40 flex items-center gap-2 cursor-not-allowed opacity-75"
               whileHover={shouldAnimate ? { y: -1, scale: 1.005 } : {}}
               whileTap={shouldAnimate ? { scale: 0.995 } : {}}
               style={{ willChange: shouldAnimate ? 'transform' : 'auto' }}
@@ -74,7 +123,7 @@ const HeroSection = React.memo(() => {
       </div>
 
       {/* Bottom decorative element */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white/30 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white/30 dark:from-gray-900/50 to-transparent pointer-events-none" />
     </div>
   );
 });

@@ -5,6 +5,13 @@
   command = "bun run build"
   publish = "dist"
 
+# Deep linking redirect - MUST come before the /* catch-all
+[[redirects]]
+  from = "/reel/:videoId"
+  to = "/reel.html?id=:videoId"
+  status = 200
+
+# Catch-all redirect for SPA (MUST be last)
 [[redirects]]
   from = "/*"
   to = "/index.html"

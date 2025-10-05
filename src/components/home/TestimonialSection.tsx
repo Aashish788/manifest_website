@@ -24,10 +24,10 @@ const testimonials = [
 
 const TestimonialSection = () => {
 	return (
-		<div className="mx-auto max-w-7xl sm:text-center py-36 relative">
-			{/* Static background gradient - removed infinite animation */}
+		<div className="mx-auto max-w-7xl sm:text-center py-36 relative bg-white dark:bg-gray-900">
+			{/* Static background gradient */}
 			<div
-				className="absolute inset-0 opacity-20 -z-10"
+				className="absolute inset-0 opacity-20 dark:opacity-40 -z-10"
 				style={{
 					background:
 						'radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.1), transparent 70%)',
@@ -36,10 +36,10 @@ const TestimonialSection = () => {
 			/>
 
 			<AnimateIn className="mb-16">
-				<h2 className="text-lg/10 font-base text-zinc-500 uppercase tracking-wider font-medium mb-3">
+				<h2 className="text-lg/10 font-base text-zinc-500 dark:text-zinc-400 uppercase tracking-wider font-medium mb-3">
 					Success Stories
 				</h2>
-				<p className="text-center text-4xl font-medium tracking-tight text-pretty text-black sm:text-5xl sm:text-balance">
+				<p className="text-center text-4xl font-medium tracking-tight text-pretty text-black dark:text-white sm:text-5xl sm:text-balance">
 					Dreams Becoming{' '}
 					<span className="text-gradient bg-gradient-to-r from-purple-600 to-indigo-600">
 						Reality
@@ -54,7 +54,7 @@ const TestimonialSection = () => {
 				{testimonials.map((testimonial, index) => (
 					<StaggerItem key={index}>
 						<motion.div
-							className="bg-white rounded-xl md:rounded-2xl p-4 md:p-8 shadow-soft h-full flex flex-col"
+							className="bg-white dark:bg-gray-800 rounded-xl md:rounded-2xl p-4 md:p-8 shadow-soft dark:shadow-2xl h-full flex flex-col border border-gray-100 dark:border-gray-700"
 							whileHover={{
 								y: -10,
 								boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.1)',
@@ -74,15 +74,15 @@ const TestimonialSection = () => {
 								))}
 							</div>
 
-							<p className="text-zinc-700 text-sm md:text-lg flex-grow italic mb-4 md:mb-6 leading-relaxed">
+							<p className="text-zinc-700 dark:text-zinc-300 text-sm md:text-lg flex-grow italic mb-4 md:mb-6 leading-relaxed">
 								"{testimonial.content}"
 							</p>
 
 							<div className="mt-auto">
-								<p className="font-semibold text-zinc-900 text-sm md:text-base">
+								<p className="font-semibold text-zinc-900 dark:text-white text-sm md:text-base">
 									{testimonial.author}
 								</p>
-								<p className="text-zinc-500 text-xs md:text-sm">
+								<p className="text-zinc-500 dark:text-zinc-400 text-xs md:text-sm">
 									{testimonial.location}
 								</p>
 							</div>

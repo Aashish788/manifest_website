@@ -4,10 +4,10 @@ import React from 'react';
 
 const CtaSection = React.memo(() => {
   return (
-    <div className="relative mx-auto max-w-7xl py-60 mt-10 lg:mt-0 select-none overflow-hidden">
-      {/* Static background effect - removed infinite animation */}
+    <div className="relative mx-auto max-w-7xl py-60 mt-10 lg:mt-0 select-none overflow-hidden bg-white dark:bg-gray-900">
+      {/* Static background effect */}
       <div 
-        className="absolute inset-0 opacity-15 -z-10"
+        className="absolute inset-0 opacity-15 dark:opacity-30 -z-10"
         style={{
           background: 'radial-gradient(circle at 50% 30%, rgba(139, 92, 246, 0.3), transparent 70%)',
           filter: 'blur(80px)',
@@ -15,16 +15,15 @@ const CtaSection = React.memo(() => {
         }}
       />
       
-      {/* Removed floating particles to improve performance */}
-      <div className="absolute top-[20%] right-[15%] w-[200px] h-[200px] rounded-full backdrop-blur-xl bg-gradient-to-br from-purple-500/10 to-blue-500/5 border border-white/20 shadow-glass-color -z-1" />
+      <div className="absolute top-[20%] right-[15%] w-[200px] h-[200px] rounded-full backdrop-blur-xl bg-gradient-to-br from-purple-500/10 to-blue-500/5 border border-white/20 dark:border-gray-600/20 shadow-glass-color -z-1" />
       
       <div className="relative z-[1] text-center">
         <AnimateIn className="mb-8">
-          <span className="uppercase text-zinc-500 tracking-wider text-lg font-medium">Begin Your Journey</span>
-          <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-zinc-900 sm:text-6xl max-w-3xl mx-auto">
+          <span className="uppercase text-zinc-500 dark:text-zinc-400 tracking-wider text-lg font-medium">Begin Your Journey</span>
+          <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-zinc-900 dark:text-white sm:text-6xl max-w-3xl mx-auto">
             Transform Your <span className="text-gradient bg-gradient-to-r from-purple-600 to-indigo-600">Thoughts</span> Into Reality.
           </h1>
-          <p className="mt-6 text-xl text-zinc-600 max-w-2xl mx-auto">
+          <p className="mt-6 text-xl text-zinc-600 dark:text-zinc-300 max-w-2xl mx-auto">
             Visualize, affirm, and manifest the life of your dreams with our powerful tools for intentional living.
           </p>
         </AnimateIn>
@@ -32,7 +31,7 @@ const CtaSection = React.memo(() => {
         <AnimateIn className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6" delay={0.2}>
           <motion.a 
             href="https://apps.apple.com"
-            className="group relative rounded-full bg-gradient-to-br from-slate-600/90 via-blue-600/80 to-slate-700/90 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-blue-400/20 outline-none transition-all duration-300 hover:shadow-[0_8px_25px_-5px_rgba(59,130,246,0.4)] hover:border-blue-300/30 hover:bg-gradient-to-br hover:from-blue-600/90 hover:via-indigo-500/80 hover:to-slate-600/90 flex items-center gap-2"
+            className="group relative rounded-full bg-gradient-to-br from-slate-600/90 via-blue-600/80 to-slate-700/90 dark:from-purple-600 dark:via-indigo-600 dark:to-purple-700 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-blue-400/20 dark:border-purple-400/30 outline-none transition-all duration-300 hover:shadow-[0_8px_25px_-5px_rgba(59,130,246,0.4)] dark:hover:shadow-[0_8px_25px_-5px_rgba(139,92,246,0.4)] hover:border-blue-300/30 dark:hover:border-purple-300/40 hover:bg-gradient-to-br hover:from-blue-600/90 hover:via-indigo-500/80 hover:to-slate-600/90 flex items-center gap-2"
             whileHover={{ y: -2, scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
           >
@@ -44,7 +43,7 @@ const CtaSection = React.memo(() => {
           
           <motion.a 
             href="https://play.google.com/store/apps/details?id=com.manifestom.app"
-            className="group relative rounded-full bg-gradient-to-br from-gray-600/90 via-slate-600/80 to-gray-700/90 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-slate-400/20 outline-none transition-all duration-300 hover:shadow-[0_8px_25px_-5px_rgba(71,85,105,0.4)] hover:border-slate-300/30 hover:bg-gradient-to-br hover:from-slate-600/90 hover:via-blue-500/80 hover:to-gray-600/90 flex items-center gap-2"
+            className="group relative rounded-full bg-gradient-to-br from-gray-600/90 via-slate-600/80 to-gray-700/90 dark:from-gray-700 dark:via-gray-600 dark:to-gray-800 px-8 py-3.5 text-md font-semibold text-white shadow-lg border border-slate-400/20 dark:border-gray-500/30 outline-none transition-all duration-300 hover:shadow-[0_8px_25px_-5px_rgba(71,85,105,0.4)] dark:hover:shadow-[0_8px_25px_-5px_rgba(75,85,99,0.4)] hover:border-slate-300/30 dark:hover:border-gray-400/40 hover:bg-gradient-to-br hover:from-slate-600/90 hover:via-blue-500/80 hover:to-gray-600/90 flex items-center gap-2"
             whileHover={{ y: -2, scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
           >

@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opening Manifestation App...</title>
+    
+    <!-- Open Graph tags for better social sharing -->
+    <meta property="og:title" content="Check out this manifestation on Manifest Dream">
+    <meta property="og:description" content="Open in the Manifest Dream app">
+    <meta property="og:image" content="https://manifestdream.site/og-image.png">
+    <meta property="og:type" content="video.other">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Check out this manifestation">
+    <meta name="twitter:description" content="Open in the Manifest Dream app">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            padding: 40px 20px;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .logo {
+            font-size: 60px;
+            margin-bottom: 20px;
+            animation: bounce 1s ease-in-out infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        p {
+            font-size: 16px;
+            opacity: 0.95;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top-color: white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 30px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .buttons {
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 16px 40px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            margin: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+        
+        .button.secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .countdown {
+            margin-top: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .error-message {
+            display: none;
+            background: rgba(255, 59, 48, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">✨</div>
+        <div class="spinner"></div>
+        <h1 id="title">Opening Manifest Dream...</h1>
+        <p id="message">Launching your manifestation video...</p>
+        
+        <div class="buttons" id="buttons">
+            <a href="#" id="appButton" class="button">🚀 Open App</a>
+            <a href="#" id="storeButton" class="button secondary">📱 Download App</a>
+        </div>
+        
+        <p class="countdown" id="countdown"></p>
+        <div class="error-message" id="error"></div>
+    </div>
+
+    <script>
+        // ============================================
+        // Configuration
+        // ============================================
+        const CONFIG = {
+            // Your app's deep link scheme
+            appScheme: 'manifestation',
+            
+            // Store URLs - UPDATE THESE WITH YOUR ACTUAL URLS
+            playStoreUrl: 'https://play.google.com/store/apps/details?id=com.manifestom.app',
+            appStoreUrl: 'https://apps.apple.com/app/id1234567890', // Replace with real App Store ID
+            
+            // Timing (in milliseconds)
+            appOpenTimeout: 2500,      // Time to wait for app to open
+            storeRedirectDelay: 3000,  // Time before auto-redirect to store
+        };
+        
+        // ============================================
+        // Get Video ID from URL
+        // ============================================
+        function getVideoIdFromUrl() {
+            // Support multiple URL formats:
+            // - manifestdream.site/reel.html?id=abc123
+            // - manifestdream.site/reel.html?videoId=abc123
+            // - manifestdream.site/reel/abc123 (requires server-side routing)
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const videoId = urlParams.get('id') || urlParams.get('videoId');
+            
+            if (videoId) {
+                console.log('✅ Video ID from query params:', videoId);
+                return videoId;
+            }
+            
+            // Try to get from path
+            const pathParts = window.location.pathname.split('/');
+            const pathId = pathParts[pathParts.length - 1].replace('.html', '');
+            
+            if (pathId && pathId !== 'reel') {
+                console.log('✅ Video ID from path:', pathId);
+                return pathId;
+            }
+            
+            console.warn('⚠️ No video ID found in URL');
+            return null;
+        }
+        
+        // ============================================
+        // Platform Detection
+        // ============================================
+        function detectPlatform() {
+            const ua = navigator.userAgent.toLowerCase();
+            const platform = {
+                isIOS: /iphone|ipad|ipod/.test(ua),
+                isAndroid: /android/.test(ua),
+                isMobile: false,
+                isDesktop: false,
+                name: 'Unknown'
+            };
+            
+            platform.isMobile = platform.isIOS || platform.isAndroid;
+            platform.isDesktop = !platform.isMobile;
+            
+            if (platform.isIOS) platform.name = 'iOS';
+            else if (platform.isAndroid) platform.name = 'Android';
+            else platform.name = 'Desktop';
+            
+            console.log('📱 Platform:', platform.name);
+            return platform;
+        }
+        
+        // ============================================
+        // Deep Link Handler
+        // ============================================
+        function handleDeepLink(videoId) {
+            const platform = detectPlatform();
+            const elements = {
+                title: document.getElementById('title'),
+                message: document.getElementById('message'),
+                buttons: document.getElementById('buttons'),
+                appButton: document.getElementById('appButton'),
+                storeButton: document.getElementById('storeButton'),
+                countdown: document.getElementById('countdown'),
+                spinner: document.querySelector('.spinner'),
+                error: document.getElementById('error')
+            };
+            
+            // Build deep link URL
+            const deepLinkUrl = videoId 
+                ? `${CONFIG.appScheme}://reel/${videoId}`
+                : `${CONFIG.appScheme}://home`;
+            
+            const storeUrl = platform.isIOS ? CONFIG.appStoreUrl : CONFIG.playStoreUrl;
+            
+            console.log('🔗 Deep link URL:', deepLinkUrl);
+            console.log('🏪 Store URL:', storeUrl);
+            
+            // ============================================
+            // Mobile: Try to open app, fallback to store
+            // ============================================
+            if (platform.isMobile) {
+                let appOpened = false;
+                
+                // Attempt to open the app
+                window.location.href = deepLinkUrl;
+                
+                // Check if app opened by monitoring page visibility
+                const visibilityHandler = () => {
+                    if (document.hidden) {
+                        appOpened = true;
+                        console.log('✅ App appears to have opened (page hidden)');
+                    }
+                };
+                
+                document.addEventListener('visibilitychange', visibilityHandler);
+                
+                // Fallback if app doesn't open
+                setTimeout(() => {
+                    document.removeEventListener('visibilitychange', visibilityHandler);
+                    
+                    if (!appOpened) {
+                        console.log('⚠️ App did not open, showing store options');
+                        
+                        elements.spinner.style.display = 'none';
+                        elements.title.textContent = "App Not Installed?";
+                        elements.message.textContent = "Download Manifest Dream to view this manifestation!";
+                        elements.buttons.style.display = 'block';
+                        elements.appButton.href = deepLinkUrl;
+                        elements.storeButton.href = storeUrl;
+                        
+                        // Countdown to auto-redirect
+                        let countdown = 3;
+                        elements.countdown.textContent = `Redirecting to store in ${countdown}s...`;
+                        
+                        const countdownInterval = setInterval(() => {
+                            countdown--;
+                            if (countdown > 0) {
+                                elements.countdown.textContent = `Redirecting to store in ${countdown}s...`;
+                            } else {
+                                clearInterval(countdownInterval);
+                                console.log('🏪 Auto-redirecting to store...');
+                                window.location.href = storeUrl;
+                            }
+                        }, 1000);
+                    }
+                }, CONFIG.appOpenTimeout);
+                
+            }
+            // ============================================
+            // Desktop: Show download options
+            // ============================================
+            else {
+                elements.spinner.style.display = 'none';
+                elements.title.textContent = "📱 Mobile App Required";
+                elements.message.textContent = "Scan the QR code or visit on your phone to view this manifestation!";
+                elements.buttons.style.display = 'block';
+                elements.appButton.style.display = 'none';
+                elements.storeButton.textContent = '📱 View on Play Store';
+                elements.storeButton.href = CONFIG.playStoreUrl;
+                
+                console.log('💻 Desktop detected - showing download options');
+            }
+        }
+        
+        // ============================================
+        // Error Handler
+        // ============================================
+        function showError(message) {
+            const errorEl = document.getElementById('error');
+            errorEl.textContent = '⚠️ ' + message;
+            errorEl.style.display = 'block';
+            document.querySelector('.spinner').style.display = 'none';
+        }
+        
+        // ============================================
+        // Initialize
+        // ============================================
+        function init() {
+            console.log('🚀 Initializing deep link handler...');
+            console.log('📍 Current URL:', window.location.href);
+            
+            const videoId = getVideoIdFromUrl();
+            
+            if (!videoId) {
+                console.warn('⚠️ No video ID found, redirecting to home...');
+                // Still try to open the app, just to home screen
+            }
+            
+            handleDeepLink(videoId);
+            
+            // Prevent back button issues
+            window.history.pushState(null, '', window.location.href);
+            window.addEventListener('popstate', () => {
+                window.history.pushState(null, '', window.location.href);
+            });
+        }
+        
+        // Start when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+</html>
