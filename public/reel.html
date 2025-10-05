@@ -273,14 +273,28 @@
                     // "Open App" button - tries again
                     elements.appButton.textContent = '🚀 Open in App';
                     elements.appButton.href = deepLinkUrl;
-                    elements.appButton.onclick = (e) => {
+                    
+                    // Remove any existing onclick handlers
+                    elements.appButton.onclick = null;
+                    
+                    // Add click handler that allows the link to work
+                    elements.appButton.addEventListener('click', function(e) {
                         console.log('🔄 User clicked: Open in App');
-                        // Let the href handle it, but add feedback
-                        elements.appButton.textContent = '⏳ Opening...';
+                        console.log('🔗 Attempting to open:', deepLinkUrl);
+                        
+                        // Don't prevent default - let the href work
+                        // Just show feedback
+                        this.textContent = '⏳ Opening...';
+                        
+                        // Try both methods for maximum compatibility
                         setTimeout(() => {
-                            elements.appButton.textContent = '🚀 Open in App';
+                            window.location.href = deepLinkUrl;
+                        }, 100);
+                        
+                        setTimeout(() => {
+                            this.textContent = '🚀 Open in App';
                         }, 2000);
-                    };
+                    });
                     
                     // "Download App" button
                     elements.storeButton.textContent = '📱 Download App';

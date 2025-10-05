@@ -6,7 +6,7 @@ You click "Open in App" → Says "Opening..." → Nothing happens
 
 ## 🎯 The Cause
 
-Your Android app doesn't know how to handle `manifestation://` links yet.
+Your Android app doesn't know how to handle `myapp://` links yet.
 
 ## ✅ The Fix (5 Minutes)
 
@@ -21,7 +21,7 @@ Find the `<activity android:name=".MainActivity">` section and add this **inside
     <action android:name="android.intent.action.VIEW" />
     <category android:name="android.intent.category.DEFAULT" />
     <category android:name="android.intent.category.BROWSABLE" />
-    <data android:scheme="manifestation" />
+    <data android:scheme="myapp" />
 </intent-filter>
 ```
 
@@ -82,8 +82,8 @@ function App() {
   }, []);
 
   function handleDeepLink(url) {
-    // Extract video ID from: manifestation://reel/abc123
-    const match = url.match(/manifestation:\/\/reel\/(.+)/);
+    // Extract video ID from: myapp://reel/abc123
+    const match = url.match(/myapp:\/\/reel\/(.+)/);
 
     if (match && match[1]) {
       const videoId = match[1];
@@ -131,7 +131,7 @@ expo run:android
 **On your phone (with app installed):**
 
 1. Open Chrome browser
-2. Type in address bar: `manifestation://reel/test123`
+2. Type in address bar: `myapp://reel/test123`
 3. Press Enter
 4. Should show "Open with Manifest Dream"
 5. Click "Open"
@@ -201,7 +201,7 @@ For more details, see:
 
 Test these URLs in Chrome on your phone:
 
-1. **Test scheme:** `manifestation://reel/test123`
+1. **Test scheme:** `myapp://reel/test123`
    - Should show "Open with..." dialog
 2. **Test website:** `https://manifestdream.site/check-deep-link.html`
    - Click the test button

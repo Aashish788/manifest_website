@@ -249,7 +249,7 @@ const CONFIG = {
 
 1. User clicks share link: `https://manifestdream.site/reel/abc123`
 2. Browser opens and loads reel.html
-3. JavaScript tries to open: `manifestation://reel/abc123`
+3. JavaScript tries to open: `myapp://reel/abc123`
 4. Android shows: "Open with Manifest Dream" dialog
 5. User clicks "Open"
 6. **Your app launches** ✅
@@ -266,7 +266,7 @@ Once the alert shows up correctly:
 
    ```javascript
    function handleDeepLink(url) {
-     const match = url.match(/manifestation:\/\/reel\/(.+)/);
+     const match = url.match(/myapp:\/\/reel\/(.+)/);
      if (match && match[1]) {
        const videoId = match[1];
 
@@ -310,7 +310,7 @@ adb shell dumpsys package com.manifestom.app | grep -A 10 "scheme"
 npx react-native log-android
 
 # Test deep link manually
-adb shell am start -W -a android.intent.action.VIEW -d "manifestation://reel/test123" com.manifestom.app
+adb shell am start -W -a android.intent.action.VIEW -d "myapp://reel/test123" com.manifestom.app
 ```
 
 Share the output and I can help debug further!
