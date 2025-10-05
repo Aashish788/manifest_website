@@ -164,8 +164,8 @@
             appStoreUrl: 'https://apps.apple.com/app/id1234567890', // Replace with real App Store ID
             
             // Timing (in milliseconds)
-            appOpenTimeout: 2500,      // Time to wait for app to open
-            storeRedirectDelay: 3000,  // Time before auto-redirect to store
+            appOpenTimeout: 1500,      // Reduced - faster feedback for users
+            storeRedirectDelay: 0,     // No auto-redirect - let user choose
         };
         
         // ============================================
@@ -249,54 +249,103 @@
             console.log('🏪 Store URL:', storeUrl);
             
             // ============================================
-            // Mobile: Try to open app, fallback to store
+            // Mobile: Better app detection method
             // ============================================
             if (platform.isMobile) {
                 let appOpened = false;
+                let startTime = Date.now();
                 
-                // Attempt to open the app
-                window.location.href = deepLinkUrl;
+                // Attempt to open the app IMMEDIATELY
+                console.log('🚀 Attempting to open app...');
                 
-                // Check if app opened by monitoring page visibility
+                // Create an invisible iframe to trigger the deep link
+                // This prevents the page from actually navigating away
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = deepLinkUrl;
+                document.body.appendChild(iframe);
+                
+                // Backup method: try window.location as well
+                setTimeout(() => {
+                    if (!appOpened) {
+                        window.location.href = deepLinkUrl;
+                    }
+                }, 100);
+                
+                // Check if app opened by monitoring page visibility AND blur
                 const visibilityHandler = () => {
                     if (document.hidden) {
                         appOpened = true;
-                        console.log('✅ App appears to have opened (page hidden)');
+                        console.log('✅ App opened - page hidden');
+                        clearTimeout(fallbackTimeout);
+                    }
+                };
+                
+                const blurHandler = () => {
+                    const timeDiff = Date.now() - startTime;
+                    if (timeDiff < 2000) { // If blur happens quickly, likely app opened
+                        appOpened = true;
+                        console.log('✅ App opened - window blur detected');
+                        clearTimeout(fallbackTimeout);
                     }
                 };
                 
                 document.addEventListener('visibilitychange', visibilityHandler);
+                window.addEventListener('blur', blurHandler);
+                window.addEventListener('pagehide', () => {
+                    appOpened = true;
+                    console.log('✅ App opened - pagehide event');
+                });
                 
                 // Fallback if app doesn't open
-                setTimeout(() => {
+                const fallbackTimeout = setTimeout(() => {
                     document.removeEventListener('visibilitychange', visibilityHandler);
+                    window.removeEventListener('blur', blurHandler);
                     
-                    if (!appOpened) {
-                        console.log('⚠️ App did not open, showing store options');
-                        
-                        elements.spinner.style.display = 'none';
-                        elements.title.textContent = "App Not Installed?";
-                        elements.message.textContent = "Download Manifest Dream to view this manifestation!";
-                        elements.buttons.style.display = 'block';
-                        elements.appButton.href = deepLinkUrl;
-                        elements.storeButton.href = storeUrl;
-                        
-                        // Countdown to auto-redirect
-                        let countdown = 3;
-                        elements.countdown.textContent = `Redirecting to store in ${countdown}s...`;
-                        
-                        const countdownInterval = setInterval(() => {
-                            countdown--;
-                            if (countdown > 0) {
-                                elements.countdown.textContent = `Redirecting to store in ${countdown}s...`;
-                            } else {
-                                clearInterval(countdownInterval);
-                                console.log('🏪 Auto-redirecting to store...');
-                                window.location.href = storeUrl;
-                            }
-                        }, 1000);
+                    if (!appOpened && !document.hidden) {
+                        console.log('⚠️ App did not open, showing options');
+                        showFallbackOptions();
+                    } else {
+                        console.log('✅ App appears to have opened successfully');
                     }
                 }, CONFIG.appOpenTimeout);
+                
+                function showFallbackOptions() {
+                    elements.spinner.style.display = 'none';
+                    elements.title.textContent = "Having Trouble?";
+                    elements.message.textContent = "Choose how you'd like to continue:";
+                    elements.buttons.style.display = 'block';
+                    
+                    // Make "Open App" button actually work
+                    elements.appButton.textContent = '🚀 Try Opening App Again';
+                    elements.appButton.onclick = (e) => {
+                        e.preventDefault();
+                        console.log('🔄 User clicked: Try opening app again');
+                        window.location.href = deepLinkUrl;
+                        
+                        // Give feedback
+                        elements.appButton.textContent = '⏳ Opening...';
+                        setTimeout(() => {
+                            elements.appButton.textContent = '🚀 Try Opening App Again';
+                        }, 2000);
+                        
+                        return false;
+                    };
+                    
+                    // Store button
+                    elements.storeButton.textContent = '📱 Download App Instead';
+                    elements.storeButton.onclick = (e) => {
+                        e.preventDefault();
+                        console.log('🏪 User chose to download from store');
+                        window.location.href = storeUrl;
+                        return false;
+                    };
+                    
+                    // Show helpful message
+                    elements.countdown.textContent = 'App installed? Click "Try Opening App Again" • No app? Click "Download App Instead"';
+                    elements.countdown.style.fontSize = '13px';
+                    elements.countdown.style.marginTop = '15px';
+                }
                 
             }
             // ============================================

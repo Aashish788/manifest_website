@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Link Tester - Manifest Dream</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 30px;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        
+        h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        button {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .secondary {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .test-link {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px 0;
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .result {
+            background: rgba(0, 255, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+        
+        .error {
+            background: rgba(255, 0, 0, 0.2);
+        }
+        
+        .info-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .copy-btn {
+            width: auto;
+            padding: 8px 15px;
+            font-size: 14px;
+            margin-left: 10px;
+            display: inline-block;
+        }
+        
+        .platform-info {
+            display: inline-block;
+            padding: 5px 10px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Deep Link Tester</h1>
+        <p class="subtitle">Test your Manifest Dream deep linking setup</p>
+        
+        <!-- Platform Detection -->
+        <div class="section">
+            <h2>📱 Platform Detection</h2>
+            <div id="platform-info"></div>
+        </div>
+        
+        <!-- URL Generator -->
+        <div class="section">
+            <h2>🔗 Generate Share URLs</h2>
+            <input 
+                type="text" 
+                id="videoId" 
+                placeholder="Enter video ID (e.g., abc123, test-video, 12345)"
+                value="test123"
+            >
+            <button onclick="generateUrls()">🚀 Generate URLs</button>
+            
+            <div id="generated-urls"></div>
+        </div>
+        
+        <!-- Test Deep Links -->
+        <div class="section">
+            <h2>🎯 Test Deep Links</h2>
+            
+            <button onclick="testDeepLink('clean')">
+                Test Clean URL: /reel/test123
+            </button>
+            
+            <button onclick="testDeepLink('query')">
+                Test Query URL: /reel.html?id=test123
+            </button>
+            
+            <button onclick="testDeepLink('scheme')" class="secondary">
+                Test App Scheme: manifestation://reel/test123
+            </button>
+            
+            <div id="test-result" class="result"></div>
+        </div>
+        
+        <!-- QR Code Generator -->
+        <div class="section">
+            <h2>📲 QR Code (for testing on phone)</h2>
+            <div id="qr-code" style="text-align: center; padding: 20px;"></div>
+            <button onclick="generateQR()">Generate QR Code</button>
+            <div class="info-box">
+                <strong>How to test:</strong><br>
+                1. Click "Generate QR Code"<br>
+                2. Scan with your phone's camera<br>
+                3. See if it opens your app or redirects to Play Store
+            </div>
+        </div>
+        
+        <!-- Configuration Check -->
+        <div class="section">
+            <h2>⚙️ Configuration Status</h2>
+            <div id="config-status"></div>
+            <button onclick="checkConfig()">Check Configuration</button>
+        </div>
+        
+        <!-- Instructions -->
+        <div class="section">
+            <h2>📚 Quick Reference</h2>
+            <div class="info-box">
+                <strong>URL Formats:</strong><br>
+                • Clean: <code>https://manifestdream.site/reel/VIDEO_ID</code><br>
+                • Query: <code>https://manifestdream.site/reel.html?id=VIDEO_ID</code><br>
+                • Deep Link: <code>manifestation://reel/VIDEO_ID</code><br><br>
+                
+                <strong>Expected Behavior:</strong><br>
+                ✅ App installed → Opens app to video<br>
+                ✅ No app → Shows download button<br>
+                ✅ Desktop → Shows "Mobile App Required"
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Detect platform
+        function detectPlatform() {
+            const ua = navigator.userAgent.toLowerCase();
+            const isIOS = /iphone|ipad|ipod/.test(ua);
+            const isAndroid = /android/.test(ua);
+            const isMobile = isIOS || isAndroid;
+            
+            let platformHTML = `
+                <div class="platform-info">
+                    <strong>Device:</strong> ${isIOS ? '🍎 iOS' : isAndroid ? '🤖 Android' : '💻 Desktop'}<br>
+                    <strong>Browser:</strong> ${navigator.userAgent.includes('Chrome') ? 'Chrome' : 
+                                              navigator.userAgent.includes('Safari') ? 'Safari' : 
+                                              navigator.userAgent.includes('Firefox') ? 'Firefox' : 'Other'}<br>
+                    <strong>Mobile:</strong> ${isMobile ? 'Yes ✅' : 'No ❌'}
+                </div>
+            `;
+            
+            document.getElementById('platform-info').innerHTML = platformHTML;
+        }
+        
+        // Generate URLs
+        function generateUrls() {
+            const videoId = document.getElementById('videoId').value.trim() || 'test123';
+            const baseUrl = 'https://manifestdream.site';
+            
+            const urls = {
+                clean: `${baseUrl}/reel/${videoId}`,
+                query: `${baseUrl}/reel.html?id=${videoId}`,
+                scheme: `manifestation://reel/${videoId}`
+            };
+            
+            let html = `
+                <h3 style="margin-top: 20px; font-size: 16px;">Generated URLs for: <code>${videoId}</code></h3>
+                
+                <div style="margin-top: 15px;">
+                    <strong>Clean URL:</strong>
+                    <div class="test-link">
+                        ${urls.clean}
+                        <button class="copy-btn" onclick="copyToClipboard('${urls.clean}')">📋 Copy</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <strong>Query URL:</strong>
+                    <div class="test-link">
+                        ${urls.query}
+                        <button class="copy-btn" onclick="copyToClipboard('${urls.query}')">📋 Copy</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 15px;">
+                    <strong>App Deep Link:</strong>
+                    <div class="test-link">
+                        ${urls.scheme}
+                        <button class="copy-btn" onclick="copyToClipboard('${urls.scheme}')">📋 Copy</button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('generated-urls').innerHTML = html;
+        }
+        
+        // Test deep links
+        function testDeepLink(type) {
+            const videoId = document.getElementById('videoId').value.trim() || 'test123';
+            const resultDiv = document.getElementById('test-result');
+            
+            let url;
+            switch(type) {
+                case 'clean':
+                    url = `https://manifestdream.site/reel/${videoId}`;
+                    break;
+                case 'query':
+                    url = `https://manifestdream.site/reel.html?id=${videoId}`;
+                    break;
+                case 'scheme':
+                    url = `manifestation://reel/${videoId}`;
+                    break;
+            }
+            
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = `
+                <strong>🚀 Testing URL:</strong><br>
+                <code style="word-break: break-all;">${url}</code><br><br>
+                <strong>Opening in new tab...</strong>
+            `;
+            
+            // Try to open the URL
+            const newWindow = window.open(url, '_blank');
+            
+            setTimeout(() => {
+                if (newWindow) {
+                    resultDiv.innerHTML += `<br><br>✅ URL opened in new tab. Check if:<br>
+                    • App opened (if installed)<br>
+                    • Redirect page loaded (if not installed)<br>
+                    • No errors in console`;
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML += `<br><br>❌ Popup blocked. Please allow popups or manually open:<br>
+                    <a href="${url}" target="_blank" style="color: white;">${url}</a>`;
+                }
+            }, 500);
+        }
+        
+        // Generate QR Code
+        function generateQR() {
+            const videoId = document.getElementById('videoId').value.trim() || 'test123';
+            const url = `https://manifestdream.site/reel/${videoId}`;
+            
+            // Using Google Charts API for QR code
+            const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chl=${encodeURIComponent(url)}&chs=300x300`;
+            
+            document.getElementById('qr-code').innerHTML = `
+                <img src="${qrUrl}" alt="QR Code" style="border-radius: 10px; background: white; padding: 10px;">
+                <p style="margin-top: 10px; font-size: 14px;">Scan to test: ${url}</p>
+            `;
+        }
+        
+        // Check configuration
+        function checkConfig() {
+            const statusDiv = document.getElementById('config-status');
+            let checks = [];
+            
+            // Check if we're on the right domain
+            const onCorrectDomain = window.location.hostname === 'manifestdream.site';
+            checks.push({
+                name: 'Domain',
+                status: onCorrectDomain,
+                message: onCorrectDomain ? 'Running on manifestdream.site' : `Running on ${window.location.hostname} (should be manifestdream.site)`
+            });
+            
+            // Check if reel.html exists
+            fetch('/reel.html')
+                .then(response => {
+                    checks.push({
+                        name: 'reel.html',
+                        status: response.ok,
+                        message: response.ok ? 'reel.html is accessible' : 'reel.html not found (404)'
+                    });
+                    displayChecks();
+                })
+                .catch(() => {
+                    checks.push({
+                        name: 'reel.html',
+                        status: false,
+                        message: 'Could not check reel.html'
+                    });
+                    displayChecks();
+                });
+            
+            function displayChecks() {
+                let html = '<div style="margin-top: 15px;">';
+                checks.forEach(check => {
+                    html += `
+                        <div style="padding: 10px; margin-bottom: 10px; background: rgba(255,255,255,0.1); border-radius: 5px;">
+                            ${check.status ? '✅' : '❌'} <strong>${check.name}:</strong> ${check.message}
+                        </div>
+                    `;
+                });
+                html += '</div>';
+                statusDiv.innerHTML = html;
+            }
+        }
+        
+        // Copy to clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('📋 Copied to clipboard!');
+            }).catch(err => {
+                console.error('Could not copy:', err);
+                // Fallback
+                prompt('Copy this URL:', text);
+            });
+        }
+        
+        // Initialize
+        detectPlatform();
+        generateUrls();
+    </script>
+</body>
+</html>

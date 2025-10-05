@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Deep Link Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 { font-size: 32px; margin-bottom: 20px; }
+        p { margin-bottom: 20px; opacity: 0.9; line-height: 1.6; }
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        input::placeholder { color: rgba(255, 255, 255, 0.6); }
+        button {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+        button:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); }
+        .info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: left;
+        }
+        .result {
+            background: rgba(0, 255, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            display: none;
+        }
+        code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Quick Deep Link Test</h1>
+        <p>Test if your app's deep linking is configured correctly</p>
+        
+        <input type="text" id="videoId" placeholder="Enter video ID" value="test123">
+        
+        <button onclick="testDirectLink()">
+            🚀 Test Direct Deep Link
+        </button>
+        
+        <button onclick="testWebRedirect()" style="background: transparent; border: 2px solid white; color: white;">
+            🌐 Test Web Redirect
+        </button>
+        
+        <div id="result" class="result"></div>
+        
+        <div class="info">
+            <strong>📋 What this tests:</strong><br><br>
+            
+            <strong>Direct Deep Link:</strong><br>
+            Tries to open: <code>manifestation://reel/test123</code><br>
+            ✅ Should open your app directly<br>
+            ❌ If nothing happens, check AndroidManifest.xml / Info.plist<br><br>
+            
+            <strong>Web Redirect:</strong><br>
+            Opens: <code>manifestdream.site/reel/test123</code><br>
+            ✅ Should show redirect page, then open app<br>
+            ❌ If stuck on redirect page, check app configuration<br><br>
+            
+            <strong>💡 Pro Tips:</strong><br>
+            • Make sure your app is installed<br>
+            • Check that scheme is "manifestation" in app<br>
+            • Look at browser console (F12) for errors<br>
+            • Try different video IDs to test
+        </div>
+    </div>
+
+    <script>
+        function testDirectLink() {
+            const videoId = document.getElementById('videoId').value.trim() || 'test123';
+            const deepLink = `manifestation://reel/${videoId}`;
+            
+            console.log('🔗 Testing direct deep link:', deepLink);
+            
+            showResult(`
+                🚀 Attempting to open app...<br>
+                Deep Link: <code>${deepLink}</code><br><br>
+                <strong>What should happen:</strong><br>
+                ✅ Your app should open to video: ${videoId}<br><br>
+                <strong>If nothing happens:</strong><br>
+                ❌ App might not be installed<br>
+                ❌ Deep link not configured in app (check AndroidManifest.xml / Info.plist)<br>
+                ❌ Wrong scheme name (should be "manifestation")
+            `);
+            
+            // Try to open the app
+            window.location.href = deepLink;
+        }
+        
+        function testWebRedirect() {
+            const videoId = document.getElementById('videoId').value.trim() || 'test123';
+            const webUrl = `https://manifestdream.site/reel/${videoId}`;
+            
+            console.log('🌐 Testing web redirect:', webUrl);
+            
+            showResult(`
+                🌐 Opening web redirect...<br>
+                URL: <code>${webUrl}</code><br><br>
+                <strong>Expected flow:</strong><br>
+                1️⃣ Opens redirect page<br>
+                2️⃣ Redirect page tries to open app<br>
+                3️⃣ If app installed → Opens to video<br>
+                4️⃣ If no app → Shows download options<br><br>
+                <strong>Opening in new tab...</strong>
+            `);
+            
+            // Open in new tab
+            window.open(webUrl, '_blank');
+        }
+        
+        function showResult(html) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+        }
+        
+        // Log platform info
+        console.log('Platform:', {
+            userAgent: navigator.userAgent,
+            isIOS: /iphone|ipad|ipod/i.test(navigator.userAgent),
+            isAndroid: /android/i.test(navigator.userAgent),
+        });
+    </script>
+</body>
+</html>
